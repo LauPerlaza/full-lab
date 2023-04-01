@@ -16,39 +16,39 @@ resource "aws_vpc" "my_vpc" {
     enable_dns_hostnames = true
     tags = {
     Name = "vpc-public-lab-full"
-    Environment = "dev"
+    Environment = "var.Environment"
   }
 }
 resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.my_vpc.id
   cidr_block              = "10.0.0.0/24"
-  availability_zone       = "us-east-1a"
+  availability_zone       = "${var.region}a"
    tags = {
-    Name = "subnet-public1-lab-full"
+    Name = "subnet-public1-${var.Environment}"
   }
   }
   resource "aws_subnet" "public2" {
   vpc_id                  = aws_vpc.my_vpc.id
   cidr_block              = "10.0.1.0/24"
-  availability_zone       = "us-east-1b"
+  availability_zone       = "${var.region}b"
    tags = {
-    Name = "subnet-public2-lab-full"
+    Name = "subnet-public2-${var.Environment}"
    }
   }
   resource "aws_subnet" "private" {
   vpc_id                  = aws_vpc.my_vpc.id
   cidr_block              = "10.0.2.0/24"
-  availability_zone       = "us-east-1a"
+  availability_zone       = "${var.region}a"
    tags = {
-    Name = "subnet-private1-lab-full"
+    Name = "subnet-private1-${var.Environment}"
    }
   }
   resource "aws_subnet" "private2" {
   vpc_id                  = aws_vpc.my_vpc.id
   cidr_block              = "10.0.3.0/24"
-  availability_zone       = "us-east-1b"
+  availability_zone       = "${var.region}a"
    tags = {
-    Name = "subnet-private2-lab-full"
+    Name = "subnet-private2-${var.Environment}"
    }
    }
    resource "aws_internet_gateway" "my_vpc_igw" {
@@ -79,7 +79,7 @@ resource "aws_security_group" "allow_ssh" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["67.73.233.174/32"]
+    cidr_blocks = [var.ip]
   }
 ingress {
     from_port   = 80
