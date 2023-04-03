@@ -5,9 +5,9 @@ variable "region" {
 }
 variable "Environment" {
    type = string
-   description = "dev" 
+   description = "dev"
 }
-variable "cidr_blocks" {
-type = number
+variable "ip" {
+type = string
 description = "ip"
 }
