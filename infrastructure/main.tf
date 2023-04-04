@@ -100,7 +100,7 @@ ingress {
 resource "aws_instance" "my_instance" {
 ami = "ami-07a92b65064ead2f2"
 instance_type = "t2.micro"
-vcp_security_group_ids = [aws_security_group.allow_ssh.id]
+vpc_security_group_ids = [aws_security_group.allow_ssh.id]
 associate_public_ip_address = true
 subnet_id = aws_subnet.public.id
 tags = {
