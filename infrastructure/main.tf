@@ -1,4 +1,4 @@
-# 	VPC resources: This will create 1 VPC with 4 Subnets, 1 Internet Gateway, 1 Route Table
+# 	VPC resources: This will create 1 VPC with 4 Subnets, 1 Internet Gateway, 1 Route Table and 1 Ec2
 terraform {
   required_providers {
     aws = {
@@ -21,7 +21,7 @@ resource "aws_vpc" "my_vpc" {
     Environment = "var.Environment"
   }
   }
-#   #   # AWS SUBNETS #  #   #
+#   #   # AWS SUBNETS PUBLIC #  #   #
 resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.my_vpc.id
   cidr_block              = "10.0.0.0/24"
@@ -38,6 +38,7 @@ resource "aws_subnet" "public" {
     Name = "subnet-public2-${var.Environment}"
    }
   }
+#   #   # AWS SUBNETS PRIVATE #  #   #
   resource "aws_subnet" "private" {
   vpc_id                  = aws_vpc.my_vpc.id
   cidr_block              = "10.0.2.0/24"
@@ -61,7 +62,7 @@ resource "aws_subnet" "public" {
     Name = "internet-gateway-${var.Environment}"
     }
   }
-  #   #   # AWS PROVIDER #  #   #
+  #   #   # AWS ROUTE TABLE #  #   #
   resource "aws_route_table" "my_vpc_us_east_1a_public" {
     vpc_id = aws_vpc.my_vpc.id
     route {
@@ -72,7 +73,7 @@ resource "aws_subnet" "public" {
         Name = "route-table-lab-${var.Environment}"
   }
 }
-#   #   # AWS ROUTE TABLE #  #   #
+#   #   # AWS ROUTE TABLE ASSOCIATION#  #   #
 resource "aws_route_table_association" "my_vpc_us_east_1a_public" {
     subnet_id = aws_subnet.public.id
     route_table_id = aws_route_table.my_vpc_us_east_1a_public.id
