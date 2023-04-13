@@ -7,10 +7,12 @@ terraform {
     }
   }
 }
+#   #   # AWS PROVIDER #  #   #
 provider "aws" {
 region = var.region
   shared_credentials_files = ["~/.aws/credentials"]
 }
+#   #   # AWS VPC #  #   #
 resource "aws_vpc" "my_vpc" {
     cidr_block = "10.0.0.0/16"
     enable_dns_hostnames = true
@@ -19,6 +21,7 @@ resource "aws_vpc" "my_vpc" {
     Environment = "var.Environment"
   }
   }
+#   #   # AWS SUBNETS #  #   #
 resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.my_vpc.id
   cidr_block              = "10.0.0.0/24"
@@ -49,14 +52,16 @@ resource "aws_subnet" "public" {
   availability_zone       = "${var.region}a"
    tags = {
     Name = "subnet-private2-${var.Environment}"
+     }
    }
-   }
+  #   #   # AWS INTERNET GATEWAY #  #   #
    resource "aws_internet_gateway" "my_vpc_igw" {
   vpc_id = aws_vpc.my_vpc.id
   tags = {
     Name = "internet-gateway-${var.Environment}"
+    }
   }
-  }
+  #   #   # AWS PROVIDER #  #   #
   resource "aws_route_table" "my_vpc_us_east_1a_public" {
     vpc_id = aws_vpc.my_vpc.id
     route {
@@ -65,17 +70,19 @@ resource "aws_subnet" "public" {
     }
     tags = {
         Name = "route-table-lab-${var.Environment}"
-    }
+  }
 }
+#   #   # AWS ROUTE TABLE #  #   #
 resource "aws_route_table_association" "my_vpc_us_east_1a_public" {
     subnet_id = aws_subnet.public.id
     route_table_id = aws_route_table.my_vpc_us_east_1a_public.id
 }
+#   #   # AWS SECURITY GROUP #  #   #
 resource "aws_security_group" "allow_ssh" {
   name        = "allow_ssh"
   description = "security-group-terraform"
   vpc_id = aws_vpc.my_vpc.id
-  ingress {
+ ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -97,13 +104,14 @@ ingress {
     Name = "security-gruop-full-lab-${var.Environment}"
   }
 }
+#   #   # AWS EC2 #  #   #
 resource "aws_instance" "my_instance" {
-ami = "ami-07a92b65064ead2f2"
-instance_type = "t2.micro"
-vpc_security_group_ids = [aws_security_group.allow_ssh.id]
-associate_public_ip_address = true
-subnet_id = aws_subnet.public.id
-tags = {
-Name = "instance-full-lab-${var.Environment}"
-}
+    ami = "ami-07a92b65064ead2f2"
+    instance_type = "${var.instance_type}"
+    vpc_security_group_ids = [aws_security_group.allow_ssh.id]
+    associate_public_ip_address = true
+    subnet_id = aws_subnet.public.id
+    tags = {
+    Name = "instance-full-lab-${var.Environment}"
+  }
 }

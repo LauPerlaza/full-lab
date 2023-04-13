@@ -11,3 +11,7 @@ variable "ip" {
 type = string
 description = "ip"
 }
+variable "instance_type" {
+  default     = "t2.micro"
+  description = "t2.micro"
+}
