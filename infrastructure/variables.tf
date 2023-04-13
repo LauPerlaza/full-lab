@@ -1,4 +1,4 @@
-#definicion de variables.
+#	Definicion de variables.
 variable "region" {
   default     = "us-east-1"
   type        = string
