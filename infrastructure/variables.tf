@@ -1,7 +1,7 @@
 variable "region" {
   default     = "us-east-1"
   type        = string
-  description = "Region of the VPC"
+  description = "Region"
 }
 variable "Environment" {
    type = string
@@ -10,4 +10,8 @@ variable "Environment" {
 variable "ip" {
 type = string
 description = "ip"
+}
+variable "instance_type" {
+default     = "t2.micro"
+description = "t2.micro"
 }
