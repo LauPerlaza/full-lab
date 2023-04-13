@@ -11,7 +11,7 @@ resource "aws_vpc" "my_vpc" {
     enable_dns_hostnames = true
     tags = {
     Name = "vpc-public-lab-${var.Environment}"
-    Environment = "var.Environment"
+    Environment = "${var.Environment}"
   }
   }
 #   #   # AWS SUBNETS PUBLIC #  #   #
