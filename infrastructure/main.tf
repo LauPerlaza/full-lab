@@ -1,4 +1,4 @@
-# VPC resources: This will create 1 VPC with 4 Subnets, 1 Internet Gateway, 1 Route Table.
+# VPC resources: This will create 1 VPC with 4 Subnets, 1 Internet Gateway, 1 Route Table
 terraform {
   required_providers {
     aws = {
