@@ -29,7 +29,11 @@ module "ec2_test" {
   source        = "./modules/ec2"
   instance_type = "t2.micro"
   subnet_id     = module.networking.subnet_id_public1
-  sg_ids        = [aws_security_group.allow_tls.id]
+  sg_ids        = [aws_security_group.allow_ssh.id]
   name          = "ec2_test"
   environment   = var.environment
 }
+module "rds_test" {
+  source = "./modules/rds"
+  
+  }

@@ -1,6 +1,6 @@
-resource "aws_instance" "project-iac" {
+resource "aws_instance" "instance-full-lab" {
   ami           = var.ami
-  instance_type = var.instance_type
+  instance_type = Var.environment == “production” ? “m5.large” : “t2.micro”
   subnet_id     = var.subnet_id
   key_name      = "keyec2terraform"
 
