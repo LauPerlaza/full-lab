@@ -26,7 +26,7 @@ resource "aws_security_group" "allow_tls" {
 }
 module "ec2_test" {
   source        = "./modules/ec2"
-  instance_type = "t2.micro"
+  instance_type = Var.environment == "production" ? "m5.large" : "t2.micro"
   subnet_id     = module.networking.subnet_id_public1
   sg_ids        = [aws_security_group.allow_ssh.id]
   name          = "ec2_test"
@@ -34,6 +34,10 @@ module "ec2_test" {
 }
 module "rds_test" {
   source = "./modules/rds"
-  
-  
+  environment = var.environment
+  user-name = var.user-name
+  password = var.password
+  multi_az = var.multi_az
+  instance_class = Var.environment == "develop" ? "t2.medium" : "t2.micro"
+  name = "rds_test"
   }
