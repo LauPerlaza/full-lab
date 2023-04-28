@@ -1,22 +1,47 @@
-resource "aws_db_instance" "default" {
+#   #   # aws RDS INSTANCE #  #   #
+
+resource "aws_db_instance" "rds-test" {
   allocated_storage    = 10
-  db_name              = "mydb"
+  db_name              = "rds-${var.name}-${var.environment}"
   engine               = "mysql"
   engine_version       = "5.7"
-  instance_class       = "db.t2.micro"
-  username             = "lauperlaza"
-  password             = "lauperlaz@123*"
-  vpc_security_group_ids =  var.sg_ids
-  db_subnet_group_name = var.subnet-group 
+  instance_class       = "${Var.environment == “production” ? “m5.large” : “t2.micro}”
+  username             = var.user-name
+  password             = var.password
+  vpc_security_group_ids = aws_vpc.security_group.ids
+  db_subnet_group_name = "subnet-group-rds-${var.environment}"
   port = 3346
-  availability_zone = "us-east-1"
-  multi_az = 
+  availability_zone = var.availability_zone
+  multi_az = var.multi_az
 }
-resource "aws_db_subnet_group" "subnet-group" {
-  name       = "subnet-group"
-  subnet_ids = module.networking.public_subnets
 
+#   #   # AWS SECURITY GROUP #  #   #
+resource "aws_security_group" " sg-rds" {
+  name        = "sg-rds"
+  description = "security-group-rds"
+  vpc_id      = aws_vpc.my_vpc.id
+  ingress {
+    from_port   = 3346
+    to_port     = 3346
+    protocol    = "tcp"
+    cidr_blocks = ["${var.ip}"]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   tags = {
-    Name = "subnet-group-${var.environment}"
+    Name = "security-gruop-rds-${var.Environment}"
   }
 }
+#   #   # AWS SUBNET GROUP #  #   #
+resource "aws_db_subnet_group" "subnet-group" {
+  name       = "subnet-group-rds"
+  subnet_ids = module.networking.subnet_id_public1
+
+  tags = {
+    Name = "subnet-group-rds-${var.environment}"
+  }
+} 
