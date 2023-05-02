@@ -38,6 +38,6 @@ module "rds_test" {
   user-name = var.user-name
   password = var.password
   multi_az = var.multi_az
-  instance_class = Var.environment == "develop" ? "t2.medium" : "t2.micro"
+  instance_class = var.environment == "develop" ? "db.t2.medium" : "db.t2.micro"
   name = "rds_test"
   }
