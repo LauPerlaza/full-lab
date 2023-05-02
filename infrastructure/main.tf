@@ -38,6 +38,7 @@ module "rds_test" {
   user-name = var.user-name
   password = var.password
   multi_az = var.multi_az
+  availability_zone = var.availability_zone
   instance_class = var.environment == "develop" ? "db.t2.medium" : "db.t2.micro"
   name = "rds_test"
   }
