@@ -11,9 +11,18 @@ variable "password" {
 variable "multi_az" {
   type        = string
 }
+variable "vpc_id" {
+  type        = string
+}
+variable "db_name" {
+  type        = string
+}
+variable "availability_zone" {
+  type        = string
+}
 variable "instance_class" {
   type        = string
 }
-variable "name" {
-  type = string
+variable "subnet_ids" {
+  type        = string
 }

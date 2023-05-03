@@ -11,7 +11,7 @@ resource "aws_vpc" "my_vpc" {
   }
 }
 #   #   # AWS SUBNETS PUBLIC #  #   #
-resource "aws_subnet" "public" {
+resource "aws_subnet" "public1" {
   vpc_id            = aws_vpc.my_vpc.id
   cidr_block        = "10.0.0.0/24"
   availability_zone = "${var.region}a"
@@ -28,7 +28,7 @@ resource "aws_subnet" "public2" {
   }
 }
 #   #   # AWS SUBNETS PRIVATE #  #   #
-resource "aws_subnet" "private" {
+resource "aws_subnet" "private1" {
   vpc_id            = aws_vpc.my_vpc.id
   cidr_block        = "10.0.2.0/24"
   availability_zone = "${var.region}a"
