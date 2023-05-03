@@ -5,7 +5,7 @@ resource "aws_db_instance" "rds-test" {
   db_name                = var.name
   engine                 = "mysql"
   engine_version         = "5.7"
-  instance_class         = var.environment == "develop" ? "db.t2.medium" : "db.t2.micro"
+  instance_class         = var.db_instance_class
   username               = var.user-name
   password               = var.password
   vpc_security_group_ids = [aws_security_group.seg-rds.id]

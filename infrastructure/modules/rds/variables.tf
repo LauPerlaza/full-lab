@@ -20,7 +20,7 @@ variable "db_name" {
 variable "availability_zone" {
   type = string
 }
-variable "instance_class" {
+variable "db_instance_class" {
   type = string
 }
 variable "subnet-id" {

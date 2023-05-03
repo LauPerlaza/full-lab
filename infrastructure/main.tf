@@ -39,8 +39,8 @@ module "rds_test" {
   password          = var.password
   multi_az          = var.multi_az
   availability_zone = var.availability_zone
-  instance_class    = var.environment == "develop" ? "db.t2.medium" : "db.t2.micro"
   db_name           = var.db_name
   vpc_id            = module.networking-test.vpc_id
   subnet_ids        = module.networking-test.subnet_id_public1
+  instance_class    = var.environment == "develop" ? "db.t2.medium" : "db.t2.micro"
 }
