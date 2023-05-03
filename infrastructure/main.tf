@@ -28,7 +28,7 @@ module "ec2_test" {
   source        = "./modules/ec2"
   instance_type = var.environment == "production" ? "m5.large" : "t2.micro"
   subnet_id     = module.networking-test.subnet_id_public2
-  sg_ids        = [aws_security_group.allow_ssh.id]
+  sg_ids        = [aws_security_group.allow_tls.id]
   name          = "ec2_test"
   environment   = var.environment
 }

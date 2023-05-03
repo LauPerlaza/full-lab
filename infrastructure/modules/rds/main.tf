@@ -24,7 +24,7 @@ resource "aws_security_group" "sg-rds" {
     from_port   = 3346
     to_port     = 3346
     protocol    = "tcp"
-    cidr_blocks = ["${var.ip}"]
+    cidr_blocks = [var.ip]
   }
   egress {
     from_port   = 0
@@ -33,13 +33,13 @@ resource "aws_security_group" "sg-rds" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "security-gruop-rds-${var.Environment}"
+    Name = "security-gruop-rds-${var.environment}"
   }
 }
 #   #   # AWS SUBNET GROUP #  #   #
 resource "aws_db_subnet_group" "subnet-group" {
   name       = "subnet-group-rds"
-  subnet_ids = var.subnet_ids
+  subnet_ids = var.subnet-id
 
   tags = {
     Name = "subnet-group-rds-${var.environment}"

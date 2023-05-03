@@ -23,6 +23,6 @@ variable "availability_zone" {
 variable "instance_class" {
   type = string
 }
-variable "subnet_ids" {
+variable "subnet-id" {
   type = string
 }
