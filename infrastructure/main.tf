@@ -33,14 +33,14 @@ module "ec2_test" {
   environment   = var.environment
 }
 module "rds_test" {
-  source = "./modules/rds"
-  environment = var.environment
-  user-name = var.user-name
-  password = var.password
-  multi_az = var.multi_az
+  source            = "./modules/rds"
+  environment       = var.environment
+  user-name         = var.user-name
+  password          = var.password
+  multi_az          = var.multi_az
   availability_zone = var.availability_zone
-  instance_class = var.environment == "develop" ? "db.t2.medium" : "db.t2.micro"
-  db_name = var.db_name
-  vpc_id = module.networking.vpc_id
-  subnet_ids = module.networking.subnet_id_public1 
-  }
+  instance_class    = var.environment == "develop" ? "db.t2.medium" : "db.t2.micro"
+  db_name           = var.db_name
+  vpc_id            = module.networking.vpc_id
+  subnet_ids        = module.networking.subnet_id_public1
+}

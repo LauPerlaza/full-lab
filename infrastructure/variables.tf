@@ -3,5 +3,5 @@ variable "region" {
   description = "Region"
 }
 variable "environment" {
-  type        = string
+  type = string
 }
