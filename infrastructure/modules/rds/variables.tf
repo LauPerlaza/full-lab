@@ -23,6 +23,18 @@ variable "availability_zone" {
 variable "db_instance_class" {
   type = string
 }
-variable "subnet-id" {
+variable "subnet_ids" {
+  type = string
+}
+variable "vpc_security_group" {
+  type = string
+}
+variable "db_subnet_group" {
+  type = string
+}
+variable "engine" {
+  type = string
+}
+variable "engine_version" {
   type = string
 }

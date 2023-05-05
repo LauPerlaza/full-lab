@@ -3,20 +3,20 @@
 resource "aws_db_instance" "rds-test" {
   allocated_storage      = 10
   db_name                = var.name
-  engine                 = "mysql"
-  engine_version         = "5.7"
+  engine                 = var.engine
+  engine_version         = var.engine_version
   instance_class         = var.db_instance_class
   username               = var.user-name
   password               = var.password
-  vpc_security_group_ids = [aws_security_group.seg-rds.id]
-  db_subnet_group_name   = aws_db_subnet_group.subnet-group-rds.name
+  vpc_security_group_ids = var.vpc_security_group
+  db_subnet_group_name   = var.db_subnet_group
   port                   = 3346
   availability_zone      = var.availability_zone
   multi_az               = var.multi_az
 }
 
 #   #   # AWS SECURITY GROUP #  #   #
-resource "aws_security_group" "sg-rds" {
+resource "aws_security_group" "seg-rds" {
   name        = "seg-rds"
   description = "security-group-rds"
   vpc_id      = var.vpc_id
@@ -38,8 +38,8 @@ resource "aws_security_group" "sg-rds" {
 }
 #   #   # AWS SUBNET GROUP #  #   #
 resource "aws_db_subnet_group" "subnet-group" {
-  name       = "subnet-group-rds"
-  subnet_ids = var.subnet-id
+  name       = "subg-rds"
+  subnet_ids = var.subnet_ids
 
   tags = {
     Name = "subnet-group-rds-${var.environment}"
