@@ -5,11 +5,11 @@ resource "aws_db_instance" "rds-test" {
   db_name                = var.name
   engine                 = var.engine
   engine_version         = var.engine_version
-  instance_class         = var.db_instance_class
+  instance_class         = var.instance_class
   username               = var.user-name
   password               = var.password
-  vpc_security_group_ids = var.vpc_security_group
-  db_subnet_group_name   = var.db_subnet_group
+  vpc_security_group_ids = [aws_security_group.seg-rds.id]
+  db_subnet_group_name   = aws_db_subnet_group.subg-rds.id
   port                   = 3346
   availability_zone      = var.availability_zone
   multi_az               = var.multi_az
@@ -24,7 +24,7 @@ resource "aws_security_group" "seg-rds" {
     from_port   = 3346
     to_port     = 3346
     protocol    = "tcp"
-    cidr_blocks = [var.ip]
+    cidr_blocks = ["0.0.0.0/0"]
   }
   egress {
     from_port   = 0
@@ -37,7 +37,7 @@ resource "aws_security_group" "seg-rds" {
   }
 }
 #   #   # AWS SUBNET GROUP #  #   #
-resource "aws_db_subnet_group" "subnet-group" {
+resource "aws_db_subnet_group" "subg-rds" {
   name       = "subg-rds"
   subnet_ids = var.subnet_ids
 

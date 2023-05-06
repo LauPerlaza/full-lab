@@ -35,16 +35,14 @@ module "ec2_test" {
 module "rds_test" {
   source            = "./modules/rds"
   environment       = var.environment
-  engine            = mysql
-  engine_version    = 5.7
-  user-name         = laup
-  password          = 123
+  engine            = "mysql"
+  engine_version    = "5.7"
+  user-name         = "laup"
+  password          = "12345678"
   multi_az          = false
-  availability_zone = us-east-1a
-  db_name           = rds_test
-  vpc_id            = module.networking-test.aws_vpc.my_vpc.id
-  vpc_security_group_ids = module.networking-test.aws_security_group.seg-rds.id
-  db_subnet_group_name   = module.networking-test.aws_db_subnet_group.subg-rds.id
-  subnet_ids        = [module.networking-test.subnet_id_public1] [module.networking-test.subnet_id_public2]
+  availability_zone = "us-east-1a"
+  name              = "rds_test"
+  vpc_id            = module.networking-test.vpc_id
+  subnet_ids        = [module.networking-test.subnet_id_public1, module.networking-test.subnet_id_public2]
   instance_class    = var.environment == "develop" ? "db.t2.medium" : "db.t2.micro"
 }

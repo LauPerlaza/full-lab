@@ -9,28 +9,16 @@ variable "password" {
   description = "password user rds"
 }
 variable "multi_az" {
-  type = string
+  type = bool
 }
-variable "vpc_id" {
-  type = string
-}
-variable "db_name" {
+variable "name" {
   type = string
 }
 variable "availability_zone" {
   type = string
 }
-variable "db_instance_class" {
-  type = string
-}
 variable "subnet_ids" {
-  type = string
-}
-variable "vpc_security_group" {
-  type = string
-}
-variable "db_subnet_group" {
-  type = string
+  type = list(any)
 }
 variable "engine" {
   type = string
@@ -38,3 +26,10 @@ variable "engine" {
 variable "engine_version" {
   type = string
 }
+variable "instance_class" {
+  type = string
+}
+variable "vpc_id" {
+  type = string
+}
+ 
