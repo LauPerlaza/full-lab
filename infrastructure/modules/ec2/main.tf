@@ -9,5 +9,6 @@ resource "aws_instance" "instance-full-lab" {
   tags = {
     Name        = "ec2-${var.name}-${var.environment}"
     Environment = var.environment
+    CreatedBy   = "terraform
   }
 }
