@@ -25,7 +25,7 @@ resource "aws_security_group" "seg-rds" {
     from_port   = 3346
     to_port     = 3346
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.cidr_to_allow]
   }
   egress {
     from_port   = 0
