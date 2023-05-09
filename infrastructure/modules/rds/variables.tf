@@ -32,4 +32,10 @@ variable "instance_class" {
 variable "vpc_id" {
   type = string
 }
+
+variable "cidr_to_allow" {
+  type = string
+}
+
+
  

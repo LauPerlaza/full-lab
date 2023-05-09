@@ -32,6 +32,14 @@ module "ec2_test" {
   name          = "ec2_test"
   environment   = var.environment
 }
+  
+## usando Data statement para obtener el CIDR de la vpc creada, este CIDR va a ser usado en el grupo de seguridad de la RDS, 
+## lo que va a permitir el acceso todas las IPs dentro del CIDR
+  
+data "aws_vpc" "vpc_cidr" {
+  id = module.networking-test.vpc_id
+}
+  
 module "rds_test" {
   source            = "./modules/rds"
   environment       = var.environment
@@ -45,4 +53,5 @@ module "rds_test" {
   vpc_id            = module.networking-test.vpc_id
   subnet_ids        = [module.networking-test.subnet_id_public1, module.networking-test.subnet_id_public2]
   instance_class    = var.environment == "develop" ? "db.t2.medium" : "db.t2.micro"
+  cidr_to_allow     = data.aws_vpc.vpc_cidr.cidr_block
 }
