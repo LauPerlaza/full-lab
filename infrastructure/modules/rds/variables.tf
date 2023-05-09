@@ -4,10 +4,6 @@ variable "environment" {
 variable "user-name" {
   type = string
 }
-variable "password" {
-  type        = string
-  description = "password user rds"
-}
 variable "multi_az" {
   type = bool
 }
@@ -38,4 +34,4 @@ variable "cidr_to_allow" {
 }
 
 
- 
+

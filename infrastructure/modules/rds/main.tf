@@ -1,5 +1,8 @@
 #   #   # aws RDS INSTANCE #  #   #
-
+resource "random_password" "password_test" {
+  length  = 8
+  special = false
+}
 resource "aws_db_instance" "rds-test" {
   allocated_storage      = 10
   db_name                = var.name
@@ -7,13 +10,13 @@ resource "aws_db_instance" "rds-test" {
   engine_version         = var.engine_version
   instance_class         = var.instance_class
   username               = var.user-name
-  password               = var.password
+  password               = random_password.password_test.result
   vpc_security_group_ids = [aws_security_group.seg-rds.id]
   db_subnet_group_name   = aws_db_subnet_group.subg-rds.id
   port                   = 3346
   availability_zone      = var.availability_zone
   multi_az               = var.multi_az
-  skip_final_snapshot    = true
+  skip_final_snapshot    = false
 }
 
 #   #   # AWS SECURITY GROUP #  #   #
@@ -45,4 +48,4 @@ resource "aws_db_subnet_group" "subg-rds" {
   tags = {
     Name = "subnet-group-rds-${var.environment}"
   }
-} 
+}
