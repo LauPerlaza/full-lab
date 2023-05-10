@@ -56,3 +56,12 @@ module "rds_test" {
   instance_class    = var.environment == "develop" ? "db.t2.medium" : "db.t2.micro"
   cidr_to_allow     = data.aws_vpc.vpc_cidr.cidr_block
 }
+module "s3_test" {
+  source = "./modules/s3"
+  environment       = var.environment
+  region = "us-east-1"
+  bucket = "rds_test_full_lab"
+  acl = "private"
+  
+
+}
