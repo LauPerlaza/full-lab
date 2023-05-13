@@ -1,6 +1,7 @@
-output "s3_bucket_arn" {
-    value = module.rds_test.s3_bucket_arn
+output "s3_bucket_name" {
+  value = try(aws_s3_bucket.s3_test.id, "")
+  # se usa try para listar los bucket?
 }
- output "s3_bucket_id" {
-value = module.s3_test.s3_bucket_id
+output "bucket_arn" {
+  value = try(aws_s3_bucket.s3_test.arn, "")
 }
