@@ -56,6 +56,8 @@ module "rds_test" {
   instance_class    = var.environment == "develop" ? "db.t2.medium" : "db.t2.micro"
   cidr_to_allow     = data.aws_vpc.vpc_cidr.cidr_block
 }
+# aws_encryption 
+
 module "s3_test" {
   source      = "./modules/s3"
   environment = var.environment
@@ -63,7 +65,4 @@ module "s3_test" {
   bucket_name = "bucket-s3-test-${random_string.backup_test.result}"
   encrypt_with_kms = true 
   kms_arn = #????
-
-
-
 }

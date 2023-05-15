@@ -1,11 +1,15 @@
 #   #   # AWS S3 #     #    #
 resource "random_string" "bucket_test" {
-  length = 4
   special = false 
 }
 #local name bucket
 locals {
   bucket_name = "bucket-s3-test-${var.bucket_name}-${var.environment}"
+}
+
+data "aws_caller_identity" "current" {
+  id = arn:aws:iam::017333715993:user/laura.perlaza
+  
 }
 # crea el bocket s3 
 resource "aws_s3_bucket" "bucket_test" {
@@ -14,7 +18,7 @@ resource "aws_s3_bucket" "bucket_test" {
   force_destroy = false 
 
   tags = {
-    Name        = "bucket-s3-test-${local.bucket}"
+    Name        = "bucket-s3-test-${local.bucket_name}"
     Environment = var.environment
   }
 }
@@ -59,9 +63,8 @@ resource "aws_s3_bucket_acl" "acl_test" {
   #acl    = "public-read"
 #}
 
-# aws_encryption 
 resource "aws_kms_key" "mykey" {
-  description             = "This key is used to encrypt bucket objects"
+  description             = "encrypt_bucket_objects"
   deletion_window_in_days = 10
 }
 
@@ -108,7 +111,7 @@ data "aws_iam_policy_document" "s3_policy" {
   statement {
     principals {
       type        = "AWS"
-      identifiers = [arn:aws:iam::017333715993:user/laura.perlaza]
+      identifiers = [data.aws_caller_identity.current.account_id]
        # el arn del usuario?? 
     }
     actions = [
