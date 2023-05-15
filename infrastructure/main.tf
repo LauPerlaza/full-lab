@@ -55,6 +55,7 @@ module "rds_test" {
   subnet_ids        = [module.networking-test.subnet_id_public1, module.networking-test.subnet_id_public2]
   instance_class    = var.environment == "develop" ? "db.t2.medium" : "db.t2.micro"
   cidr_to_allow     = data.aws_vpc.vpc_cidr.cidr_block
+  enable_bucket_policy = var.environment == "develop" ? "false" : "true"
 }
 # aws_encryption 
 
@@ -65,4 +66,5 @@ module "s3_test" {
   bucket_name      = "bucket-s3-test-${random_string.backup_test.result}"
   encrypt_with_kms = var.environment == "prod" ? "true" : false
   kms_arn          = data.aws_s3_bucket.s3_test.arn
+
 }

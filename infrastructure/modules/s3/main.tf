@@ -8,7 +8,7 @@ locals {
 }
 
 data "aws_caller_identity" "current" {
-  id = arn:aws:iam::017333715993:user/laura.perlaza
+  id = arn::aws:iam::017333715993:user/laura.perlaza
   
 }
 data "aws_kms_key" "key_test" {
