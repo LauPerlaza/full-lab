@@ -59,10 +59,10 @@ module "rds_test" {
 # aws_encryption 
 
 module "s3_test" {
-  source      = "./modules/s3"
-  environment = var.environment
-  region      = "us-east-1"
-  bucket_name = "bucket-s3-test-${random_string.backup_test.result}"
-  encrypt_with_kms = true 
-  kms_arn = #????
+  source           = "./modules/s3"
+  environment      = var.environment
+  region           = "us-east-1"
+  bucket_name      = "bucket-s3-test-${random_string.backup_test.result}"
+  encrypt_with_kms = var.environment == "prod" ? "true" : false
+  kms_arn          = data.aws_s3_bucket.s3_test.arn
 }

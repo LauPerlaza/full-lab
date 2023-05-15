@@ -11,6 +11,10 @@ data "aws_caller_identity" "current" {
   id = arn:aws:iam::017333715993:user/laura.perlaza
   
 }
+data "aws_kms_key" "key_test" {
+  id = aws_s3_bucket.s3_test.arn
+}
+
 # crea el bocket s3 
 resource "aws_s3_bucket" "bucket_test" {
   count = 4
@@ -63,7 +67,7 @@ resource "aws_s3_bucket_acl" "acl_test" {
   #acl    = "public-read"
 #}
 
-resource "aws_kms_key" "mykey" {
+resource "aws_kms_key" "key_test" {
   description             = "encrypt_bucket_objects"
   deletion_window_in_days = 10
 }
@@ -76,7 +80,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "bucket_encryption
 
   rule {
     apply_server_side_encryption_by_default {
-      kms_master_key_id = aws_kms_key.mykey.arn 
+      kms_master_key_id = aws_kms_key.key_test.arn 
       #var.kms_arn falta  output
       sse_algorithm     = "aws:kms" 
       # hay dos validos AES256 y aws:kms como se diferencian?
