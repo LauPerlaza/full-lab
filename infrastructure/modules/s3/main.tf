@@ -5,19 +5,12 @@ resource "random_string" "bucket_test" {
 #local name bucket
 locals {
   bucket_name = "bucket-s3-test-${var.bucket_name}-${var.environment}"
-}
-
-data "aws_caller_identity" "current" {
-  id = arn::aws:iam::017333715993:user/laura.perlaza
-  
-}
-data "aws_kms_key" "key_test" {
-  id = aws_s3_bucket.s3_test.arn
+  aws_caller_identity = "arn::aws:iam::017333715993:user/laura.perlaza"
+  aws_kms_key = "aws_s3_bucket.s3_test.arn"
 }
 
 # crea el bocket s3 
 resource "aws_s3_bucket" "bucket_test" {
-  count = 4
   bucket        = local.bucket_name
   force_destroy = false 
 
@@ -28,7 +21,7 @@ resource "aws_s3_bucket" "bucket_test" {
 }
   # acl bloque el acceso al bucket publico o privado
 resource "aws_s3_bucket_ownership_controls" "acl_test" { 
-  bucket = aws_s3_bucket.bucket_test[0].id 
+  bucket = aws_s3_bucket.bucket_test.id 
   #por favor otro repaso
   rule {
     object_ownership = "BucketOwnerPreferred"
@@ -111,11 +104,11 @@ resource "aws_s3_bucket_policy" "s3_policy" {
   policy = data.aws_iam_policy_document.s3_policy.json
 }
 
-data "aws_iam_policy_document" "s3_policy" {
+resource "aws_iam_policy_document" "s3_policy" {
   statement {
     principals {
       type        = "AWS"
-      identifiers = [data.aws_caller_identity.current.account_id]
+      identifiers = local.aws_caller_identity
        # el arn del usuario?? 
     }
     actions = [

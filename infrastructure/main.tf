@@ -65,6 +65,6 @@ module "s3_test" {
   region           = "us-east-1"
   bucket_name      = "bucket-s3-test-${random_string.backup_test.result}"
   encrypt_with_kms = var.environment == "prod" ? "true" : false
-  kms_arn          = data.aws_s3_bucket.s3_test.arn
+  kms_arn          = aws_s3_bucket.s3_test.arn
 
 }
