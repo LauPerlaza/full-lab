@@ -6,7 +6,7 @@ module "networking-test" {
 }
 
 resource "aws_security_group" "allow_tls" {
-  depends_on = [module.networking-test]
+  depends_on  = [module.networking-test]
   name        = "allow_tls"
   description = "aws_security_group"
   vpc_id      = module.networking-test.vpc_id
@@ -26,7 +26,7 @@ resource "aws_security_group" "allow_tls" {
   }
 }
 module "ec2_test" {
-  depends_on = [aws_security_group.allow_tls, module.networking-test]
+  depends_on    = [aws_security_group.allow_tls, module.networking-test]
   source        = "./modules/ec2"
   instance_type = var.environment == "production" ? "m5.large" : "t2.micro"
   subnet_id     = module.networking-test.subnet_id_public2
@@ -55,4 +55,16 @@ module "rds_test" {
   subnet_ids        = [module.networking-test.subnet_id_public1, module.networking-test.subnet_id_public2]
   instance_class    = var.environment == "develop" ? "db.t2.medium" : "db.t2.micro"
   cidr_to_allow     = data.aws_vpc.vpc_cidr.cidr_block
+  enable_bucket_policy = var.environment == "develop" ? "false" : "true"
+}
+# aws_encryption 
+
+module "s3_test" {
+  source           = "./modules/s3"
+  environment      = var.environment
+  region           = "us-east-1"
+  bucket_name      = "bucket-s3-test-${random_string.backup_test.result}"
+  encrypt_with_kms = var.environment == "prod" ? "true" : false
+  kms_arn          = aws_s3_bucket.s3_test.arn
+
 }
